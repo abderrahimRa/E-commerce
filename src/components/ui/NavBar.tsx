@@ -1,5 +1,4 @@
-"use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -18,6 +17,7 @@ const NavBar = () => {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [shouldShowNavbar, setShouldShowNavbar] = useState(true);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const menuItems = [
     { name: "Home", icon: Home },
@@ -90,6 +90,16 @@ const NavBar = () => {
     }
   }, [lastScrollY]);
 
+  const handleMobileSearchClick = () => {
+    setIsMobileSearchOpen(true);
+    // Use setTimeout to ensure the input is focused after the SearchBar is rendered
+    setTimeout(() => {
+      if (searchInputRef.current) {
+        searchInputRef.current.focus();
+      }
+    }, 100);
+  };
+
   return (
     <>
       <motion.nav
@@ -135,7 +145,7 @@ const NavBar = () => {
             <div className="flex items-center md:hidden">
               <motion.button
                 className="p-2 rounded-md text-gray-800 hover:text-gray-600 focus:outline-none"
-                onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+                onClick={handleMobileSearchClick}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -165,6 +175,7 @@ const NavBar = () => {
                 <SearchBar
                   isMobile={true}
                   onClose={() => setIsMobileSearchOpen(false)}
+                  inputRef={searchInputRef}
                 />
               </div>
             </motion.div>
@@ -203,7 +214,7 @@ const NavBar = () => {
                   <motion.a
                     key={item.name}
                     href="#"
-                    className=" py-2 text-gray-800 hover:text-gray-600 transition-colors flex items-center gap-2"
+                    className="py-2 text-gray-800 hover:text-gray-600 transition-colors flex items-center gap-2"
                     variants={menuItemVariants}
                     whileHover={{ x: 10 }}
                   >
