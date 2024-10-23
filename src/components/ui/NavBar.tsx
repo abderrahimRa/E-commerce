@@ -9,6 +9,8 @@ import {
   Phone,
   ChevronRight,
   Search,
+  ShoppingCart,
+  LogIn,
 } from "lucide-react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
@@ -22,9 +24,11 @@ const NavBar = () => {
 
   const menuItems = [
     { name: "Home", icon: Home, href: "/home" },
-    { name: "About", icon: Info, href: "/about" },
+    { name: "Chart", icon: ShoppingCart, href: "/MyCart" },
+    { name: "Login", icon:LogIn , href: "/Login" },
     { name: "Services", icon: Settings, href: "/services" },
     { name: "Contact", icon: Phone, href: "/contact" },
+    { name: "About", icon: Info, href: "/about" },
   ];
 
   const sidebarVariants = {

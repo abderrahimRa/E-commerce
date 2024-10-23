@@ -116,7 +116,7 @@ const Home = () => {
       </motion.div>
 
       <main className="relative" onMouseMove={handleMouseMove}>
-        <div className="max-w-7xl mx-auto px-4 pt-24 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 pt-24  relative z-10">
           <motion.header
             className="mb-12"
             style={{ opacity: headerOpacity, y: parallaxY }}

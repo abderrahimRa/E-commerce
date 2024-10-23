@@ -18,9 +18,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [isExpanded, setIsExpanded] = useState(isMobile);
   const [searchTerm, setSearchTerm] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
   const localInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -94,6 +99,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
     return `hidden md:flex ${className}`;
   };
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <motion.div

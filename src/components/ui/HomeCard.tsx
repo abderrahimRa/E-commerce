@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ShoppingBag, Heart, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/compat/router";
+import { useRouter } from "next/navigation";
 import products from "../../Data/products";
 
 const truncateText = (text: string, length: number) => {
@@ -19,19 +19,11 @@ const HomeCard = () => {
   };
 
   const handleProductClick = (id: number) => {
-    if (router) {
-      router.push(`/products/${id}`);
-    }
+    router.push(`/products/${id}`);
   };
 
   return (
     <main className="container mx-auto px-4 py-16">
-      <div className="text-center mb-16 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
-        <h1>Featured Products</h1>
-        <div className="w-24 h-1 bg-black dark:bg-white mx-auto mt-4 rounded-full" />
-      </div>
-
-      {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product) => (
           <div
@@ -109,16 +101,18 @@ const HomeCard = () => {
                     {expanded[product.id] ? "see less" : "see more"}
                   </button>
                 </p>
-                <button
-                  className="w-full py-3 px-4 cursor-pointer bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium overflow-hidden relative group/button"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span className="absolute inset-0 opacity-0 group-hover/button:opacity-100 transition-opacity duration-300" />
-                  <span className="relative flex h-5 items-center justify-center gap-2">
-                    <ShoppingBag className="w-5" />
-                    Add to Cart
-                  </span>
-                </button>
+                <Link href={`/ShoppingForm`} passHref>
+                  <button
+                    className="w-full py-3 px-4 cursor-pointer bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium overflow-hidden relative group/button"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="absolute inset-0 opacity-0 group-hover/button:opacity-100 transition-opacity duration-300" />
+                    <span className="relative flex h-5 items-center justify-center gap-2">
+                      <ShoppingBag className="w-5" />
+                      Buy right now
+                    </span>
+                  </button>
+                </Link>
               </div>
               <div className="bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
