@@ -11,6 +11,14 @@ import ProductDetails from "@/components/ui/ProductDetails";
 import HomeFooter from "@/components/ui/HomeFooter";
 import { StaticImageData } from "next/image";
 
+// Function to generate static paths for each product ID
+export async function generateStaticParams() {
+  return products.map((product) => ({
+    id: product.id.toString(), // Ensure IDs are strings
+  }));
+}
+
+// Main component
 const ProductPage: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [product, setProduct] = useState<{
