@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import products from "@/Data/products";
 import NavBar from "@/components/ui/NavBar";
 import { ChevronLeft } from "lucide-react";
@@ -10,13 +11,7 @@ import ProductDetails from "@/components/ui/ProductDetails";
 import HomeFooter from "@/components/ui/HomeFooter";
 import { StaticImageData } from "next/image";
 
-// TypeScript type for product prop
-interface ProductPageProps {
-  productId: number;
-}
-
-// Main component
-const ProductPage: React.FC<ProductPageProps> = ({ productId }) => {
+const ProductPage: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [product, setProduct] = useState<{
     id: number;
@@ -26,11 +21,16 @@ const ProductPage: React.FC<ProductPageProps> = ({ productId }) => {
     image: string | StaticImageData | (string | StaticImageData)[];
   } | null>(null);
   const productRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect(() => {
-    const fetchedProduct = products.find((p) => p.id === productId);
-    setProduct(fetchedProduct || null);
-  }, [productId]);
+    if (id) {
+      const productId = parseInt(id as string);
+      const fetchedProduct = products.find((p) => p.id === productId);
+      setProduct(fetchedProduct || null);
+    }
+  }, [id]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
