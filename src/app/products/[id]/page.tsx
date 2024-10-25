@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 import products from "@/Data/products";
 import NavBar from "@/components/ui/NavBar";
 import { ChevronLeft } from "lucide-react";
@@ -8,41 +9,28 @@ import ProductImage from "@/components/ui/ProductImage";
 import ProductDetails from "@/components/ui/ProductDetails";
 import HomeFooter from "@/components/ui/HomeFooter";
 import { StaticImageData } from "next/image";
-import { GetStaticPaths, GetStaticProps } from "next";
-
-// Function to generate static paths for each product ID
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = products.map((product) => ({
-    params: { id: product.id.toString() }, // Ensure IDs are strings
-  }));
-  return { paths, fallback: false };
-};
-
-// Function to fetch product details at build time
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const product = products.find((p) => p.id === parseInt(params?.id as string));
-  return {
-    props: {
-      product: product || null, // Pass product data or null if not found
-    },
-  };
-};
 
 // TypeScript type for product prop
 interface ProductPageProps {
-  product: {
+  productId: number;
+}
+
+// Main component
+const ProductPage: React.FC<ProductPageProps> = ({ productId }) => {
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const [product, setProduct] = useState<{
     id: number;
     name: string;
     price: string;
     description: string;
     image: string | StaticImageData | (string | StaticImageData)[];
-  } | null;
-}
-
-// Main component
-const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  } | null>(null);
   const productRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchedProduct = products.find((p) => p.id === productId);
+    setProduct(fetchedProduct || null);
+  }, [productId]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
