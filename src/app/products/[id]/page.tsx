@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import products from "@/Data/products";
